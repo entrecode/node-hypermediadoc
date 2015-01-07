@@ -1,0 +1,28 @@
+{
+  "name": "hypermediadoc",
+  "version": "0.0.1",
+  "description": "Node.js module to generate markdown documentation for Hypermedia APIs.",
+  "homepage": "https://github.com/entrecode/node-hypermediadoc",
+  "author": {
+    "name": "Ruben Deyhle",
+    "email": "deyhle@entrecode.de",
+    "url": "https://entrecode.de"
+  },
+  "repository": "entrecode/hypermediadoc",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "hypermediadoc",
+    "node",
+    "javascript",
+    "documentation",
+    "markdown",
+    "hypermedia",
+    "rest",
+    "generator"
+  ],
+  "dependencies": {},
+  "devDependencies": {}
+}

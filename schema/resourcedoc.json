@@ -1,0 +1,209 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "https://entrecode.de/schema/resourcedoc",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "title": {
+      "id": "https://entrecode.de/schema/resourcedoc/title",
+      "type": "string"
+    },
+    "description": {
+      "id": "https://entrecode.de/schema/resourcedoc/description",
+      "type": "string"
+    },
+    "methods": {
+      "id": "https://entrecode.de/schema/resourcedoc/methods",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": false,
+      "items": {
+        "id": "https://entrecode.de/schema/resourcedoc/methods/0",
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "id": "https://entrecode.de/schema/resourcedoc/methods/0/name",
+            "type": "string"
+          },
+          "description": {
+            "id": "https://entrecode.de/schema/resourcedoc/methods/0/description",
+            "type": "string"
+          },
+          "request": {
+            "id": "https://entrecode.de/schema/resourcedoc/methods/0/request",
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "schema": {
+                "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/schema",
+                "type": "string"
+              },
+              "headers": {
+                "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/headers",
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {}
+              },
+              "properties": {
+                "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/properties",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": false,
+                "items": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/properties/0",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/properties/0/name",
+                      "type": "string"
+                    },
+                    "description": {
+                      "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/properties/0/description",
+                      "type": "string"
+                    },
+                    "optional": {
+                      "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/properties/0/optional",
+                      "type": "boolean",
+                      "default": "false"
+                    },
+                    "required": [
+                      "name",
+                      "description",
+                      "optional"
+                    ]
+                  }
+                }
+              },
+              "description": {
+                "id": "https://entrecode.de/schema/resourcedoc/methods/0/request/description",
+                "type": "string"
+              }
+            }
+          },
+          "responses": {
+            "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": false,
+            "items": {
+              "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/code",
+                  "type": "string"
+                },
+                "schema": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/schema",
+                  "type": "string"
+                },
+                "description": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/description",
+                  "type": "string"
+                },
+                "headers": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/headers",
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {}
+                },
+                "links": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/links",
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": false,
+                  "items": {
+                    "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/links/0",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "relation": {
+                        "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/links/0/relation",
+                        "type": "string"
+                      },
+                      "description": {
+                        "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/links/0/description",
+                        "type": "string"
+                      },
+                      "methods": {
+                        "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/links/0/methods",
+                        "type": "array",
+                        "minItems": 1,
+                        "uniqueItems": false
+                      },
+                      "templated": {
+                        "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/links/0/templated",
+                        "type": "boolean",
+                        "default": "false"
+                      },
+                      "required": [
+                        "relation",
+                        "description",
+                        "methods",
+                        "templated"
+                      ]
+                    }
+                  }
+                },
+                "properties": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/properties",
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": false,
+                  "items": {
+                    "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/properties/0",
+                    "type": "object",
+                    "additionalProperties": true,
+                    "properties": {
+                      "name": {
+                        "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/properties/0/name",
+                        "type": "string"
+                      },
+                      "description": {
+                        "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/properties/0/description",
+                        "type": "string"
+                      },
+                      "optional": {
+                        "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/properties/0/optional",
+                        "type": "boolean",
+                        "default": "false"
+                      },
+                      "required": [
+                        "name",
+                        "description",
+                        "optional"
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/example",
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {}
+                },
+                "required": [
+                  "code",
+                  "description"
+                ]
+              }
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "responses"
+          ]
+        }
+      }
+    },
+    "required": [
+      "title",
+      "description",
+      "methods"
+    ]
+  }
+}
