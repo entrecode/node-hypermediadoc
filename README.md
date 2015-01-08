@@ -1,4 +1,4 @@
-#  [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-url]][daviddm-image]
+#  [![NPM version][npm-image]][npm-url] [![Dependency Status][daviddm-url]][daviddm-image]
 
 > Node.js module to generate markdown documentation for Hypermedia APIs.
 
@@ -55,9 +55,40 @@ var resourceDefinition = {
 var markdown = hypermediadoc.markdownFromResource(resourceDefinition);
 ```
 
+## API
+
+### hypermediadoc.markdownFromResource(resourceDefinition)
+
+Synchronous function. Returns a markdown string.
+
+If `resourceDefinition` is no valid JSON with `resourcedoc` JSON schema, an error is thrown.
+The form of the returned markdown is defined by the `resource.md.handlebars` schema.
+
+## Customization
+
+### Templates
+The module uses [Handlebars](http://handlebarsjs.com/) as template engine for the markdown files.
+They are located in `./templates`.
+
+The following Handlebars helpers are available:
+
+* `toUpperCase` – UPPERCASES a string
+* `toLowerCase` – lowercases a string
+* `boolToEnglish` – translates `true` to 'Yes' and `false` to `No`.
+* `httpExplain` – returnes the description for a HTTP status code (200: ok, 404: not found, …)
+* `stringify` – JSON.stringify()
+
+
 ## Tests
 
-*tbd*
+```
+mocha
+```
+
+## Changelog
+
+### 0.0.1
+* initial release
 
 ## License
 
@@ -66,7 +97,5 @@ MIT © [entrecode GmbH](https://entrecode.de)
 
 [npm-url]: https://npmjs.org/package/hypermediadoc
 [npm-image]: https://badge.fury.io/js/hypermediadoc.svg
-[travis-url]: https://travis-ci.org/entrecode/hypermediadoc
-[travis-image]: https://travis-ci.org/entrecode/hypermediadoc.svg?branch=master
 [daviddm-url]: https://david-dm.org/entrecode/hypermediadoc.svg?theme=shields.io
 [daviddm-image]: https://david-dm.org/entrecode/hypermediadoc

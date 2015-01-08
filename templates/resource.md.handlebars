@@ -27,7 +27,7 @@ JSON Schema: [{{request.schema}}]({{request.schema}})
 |Name|Description|Optional|
 |----|-----------|--------|
 {{#request.properties}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}|
+|{{name}}|{{description}}|{{boolToEnglish optional}}.|
 {{/request.properties}}
 
 {{/if}}
@@ -54,7 +54,7 @@ JSON Schema: [{{schema}}]({{schema}})
 |Relation|Description|Methods|Templated|
 |--------|-----------|-------|---------|
 {{#links}}
-|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}|
+|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}.|
 {{/links}}
 
 {{/if}}
@@ -63,7 +63,7 @@ JSON Schema: [{{schema}}]({{schema}})
 |Name|Description|Optional|
 |----|-----------|--------|
 {{#properties}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}|
+|{{name}}|{{description}}|{{boolToEnglish optional}}.|
 {{/properties}}
 
 {{/if}}
