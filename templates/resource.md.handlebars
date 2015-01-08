@@ -1,0 +1,77 @@
+# {{title}}
+{{description}}
+
+{{#methods}}* [{{toUpperCase name}}](#{{name}}){{/methods}}
+
+{{#methods}}
+## {{toUpperCase name}}
+{{description}}
+
+### Request
+
+{{#if request.schema}}
+JSON Schema: [{{request.schema}}]({{request.schema}})
+
+{{/if}}
+{{#if request.headers}}
+#### Headers
+|Header|Value|
+|------|-----|
+{{#each request.headers}}
+|{{@key}}|{{this}}|
+{{/each}}
+
+{{/if}}
+{{#if request.properties}}
+#### Properties
+|Name|Description|Optional|
+|----|-----------|--------|
+{{#request.properties}}
+|{{name}}|{{description}}|{{boolToEnglish optional}}|
+{{/request.properties}}
+
+{{/if}}
+{{request.description}}
+
+{{#responses}}
+### Response: {{code}} {{httpExplain code}}
+
+{{#if schema}}
+JSON Schema: [{{schema}}]({{schema}})
+
+{{/if}}
+{{#if headers}}
+#### Headers
+|Header|Value|
+|------|-----|
+{{#each headers}}
+|{{@key}}|{{this}}|
+{{/each}}
+
+{{/if}}
+{{#if links}}
+#### Links
+|Relation|Description|Methods|Templated|
+|--------|-----------|-------|---------|
+{{#links}}
+|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}|
+{{/links}}
+
+{{/if}}
+{{#if properties}}
+#### Properties
+|Name|Description|Optional|
+|----|-----------|--------|
+{{#properties}}
+|{{name}}|{{description}}|{{boolToEnglish optional}}|
+{{/properties}}
+
+{{/if}}
+{{#if example}}
+#### Example
+```
+{{{stringify example}}}
+```
+{{/if}}
+{{/responses}}
+{{/methods}}

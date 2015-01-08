@@ -23,6 +23,8 @@
     "rest",
     "generator"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "handlebars": "^2.0.0"
+  },
   "devDependencies": {}
 }
