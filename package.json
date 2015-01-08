@@ -23,6 +23,10 @@
     "rest",
     "generator"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "handlebars": "^2.0.0",
+    "tv4": "^1.1.5",
+    "tv4-formats": "^0.5.1"
+  },
   "devDependencies": {}
 }
