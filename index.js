@@ -16,7 +16,7 @@ for (var schema in schemas) {
 
 var handlebarsHelpers = require('./lib/handlebarsHelpers');
 
-var resourceTemplate = handlebars.compile(fs.readFileSync('./templates/resource.md.handlebars', {encoding: 'utf8'}));
+var resourceTemplate = handlebars.compile(fs.readFileSync(__dirname+'/templates/resource.md.handlebars', {encoding: 'utf8'}));
 
 handlebars = handlebarsHelpers(handlebars);
 
