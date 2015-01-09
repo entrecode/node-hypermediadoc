@@ -87,6 +87,11 @@ mocha
 
 ## Changelog
 
+### 0.0.2
+* fix for usage as a node module
+* fixes for npm installation
+* improvements in schema and template
+
 ### 0.0.1
 * initial release
 
