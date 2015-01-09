@@ -102,5 +102,5 @@ MIT © [entrecode GmbH](https://entrecode.de)
 
 [npm-url]: https://npmjs.org/package/hypermediadoc
 [npm-image]: https://badge.fury.io/js/hypermediadoc.svg
-[daviddm-url]: https://david-dm.org/entrecode/hypermediadoc.svg?theme=shields.io
-[daviddm-image]: https://david-dm.org/entrecode/hypermediadoc
+[daviddm-url]: https://david-dm.org/entrecode/node-hypermediadoc.svg?theme=shields.io
+[daviddm-image]: https://david-dm.org/entrecode/node-hypermediadoc
