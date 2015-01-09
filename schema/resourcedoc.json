@@ -94,7 +94,7 @@
               "properties": {
                 "code": {
                   "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/code",
-                  "type": "string"
+                  "type": "number"
                 },
                 "schema": {
                   "id": "https://entrecode.de/schema/resourcedoc/methods/0/responses/0/schema",

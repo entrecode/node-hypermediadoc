@@ -1,14 +1,16 @@
 # {{title}}
 {{description}}
 
-{{#methods}}* [{{toUpperCase name}}](#{{name}}){{/methods}}
+{{#methods}}
+* [{{toUpperCase name}}](#{{name}})
+{{/methods}}
 
 {{#methods}}
 ## {{toUpperCase name}}
 {{description}}
-
+{{#if request}}
 ### Request
-
+{{/if}}
 {{#if request.schema}}
 JSON Schema: [{{request.schema}}]({{request.schema}})
 
