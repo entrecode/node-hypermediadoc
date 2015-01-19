@@ -28,7 +28,6 @@ var hypermediadoc = module.exports = {
    * @returns Markdown string
    */
   markdownFromResource: function(resource) {
-    // TODO check for JSON schema
     var validation = tv4.validateResult(resource, schemas.resourcedoc, false, true);
     if (!validation.valid) {
       throw validation.error;
