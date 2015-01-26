@@ -2,6 +2,7 @@
 
 var fs         = require('fs')
   , handlebars = require('handlebars')
+  , marked     = require('marked')
   , tv4        = require('tv4')
   , tv4formats = require('tv4-formats')
   , schemas    = {
@@ -16,9 +17,23 @@ for (var schema in schemas) {
 
 var handlebarsHelpers = require('./lib/handlebarsHelpers');
 
-var resourceTemplate = handlebars.compile(fs.readFileSync(__dirname+'/templates/resource.md.handlebars', {encoding: 'utf8'}));
+var templates = {
+  markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/resource.md.handlebars', {encoding: 'utf8'})),
+  html: handlebars.compile(fs.readFileSync(__dirname + '/templates/resource.html.handlebars', {encoding: 'utf8'}))
+}
 
 handlebars = handlebarsHelpers(handlebars);
+
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: true
+});
 
 var hypermediadoc = module.exports = {
 
@@ -28,11 +43,18 @@ var hypermediadoc = module.exports = {
    * @returns Markdown string
    */
   markdownFromResource: function(resource) {
-    // TODO check for JSON schema
     var validation = tv4.validateResult(resource, schemas.resourcedoc, false, true);
     if (!validation.valid) {
       throw validation.error;
     }
-    return resourceTemplate(resource);
+    return templates.markdown(resource);
+  },
+
+  htmlFromResource: function(resource) {
+    var data = {
+      document: marked(this.markdownFromResource(resource)),
+      title: resource.title + ' Documentation'
+    };
+    return templates.html(data);
   }
 };

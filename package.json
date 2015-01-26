@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "handlebars": "^2.0.0",
+    "marked": "^0.3.3",
     "tv4": "^1.1.5",
     "tv4-formats": "^0.5.1"
   },
