@@ -1,0 +1,32 @@
+# {{title}}
+{{description}}
+
+{{#if entryPoint}}
+* **Entry Point:** [{{entryPoint}}]({{entryPoint}})
+{{/if}}
+{{#if mediaType}}
+* **Media Type:** `{{mediaType.identifier}}` ([{{mediaType.name}}]({{mediaType.link}}))
+{{/if}}
+{{#if richardsonMaturityLevel}}
+* **[Richardson Maturity Level](http://martinfowler.com/articles/richardsonMaturityModel.html):** {{richardsonMaturityLevel}} ({{richardsonExplain richardsonMaturityLevel}})
+{{/if}}
+
+{{restExplanation}}
+
+{{moreDocContent}}
+
+## Relations
+
+{{#relations}}
+* [{{title}}](./rel/{{title}})
+{{/relations}}
+* [Common Relations:](http://www.iana.org/assignments/link-relations/link-relations.xhtml)
+{{#commonRelations}}
+    * {{this}}
+{{/commonRelations}}
+
+## Resources
+
+{{#resources}}
+* [{{title}}](./{{title}})
+{{/resources}}

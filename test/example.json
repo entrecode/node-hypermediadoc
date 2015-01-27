@@ -14,7 +14,10 @@
     {
       "title": "myapi:account",
       "description": "Display a user account",
-      "resource": "account",
+      "resource": {
+        "name": "example:account",
+        "href": "../account"
+      },
       "method": "get",
       "templated": [
         {

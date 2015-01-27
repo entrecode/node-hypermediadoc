@@ -275,7 +275,15 @@
             "type": "string"
           },
           "resource": {
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              }
+            }
           },
           "method": {
             "type": "string"

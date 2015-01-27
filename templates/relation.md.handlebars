@@ -1,0 +1,15 @@
+# Relation: {{title}}
+{{description}}
+
+**Resource:** [{{resource.href}}]({{resource.name}})
+
+{{#if templated}}
+### Templating
+
+|Parameter|Description|
+|---------|-----------|
+{{#templated}}
+|{{key}}|{{description}}|
+{{/templated}}
+
+{{/if}}
