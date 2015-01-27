@@ -1,10 +1,46 @@
 # Resource: {{title}}
 {{description}}
 
+{{#if embeddedResourceInListResource}}
+* [Embedded Resource](#embedded-resource)
+{{/if}}
 {{#methods}}
 * [{{toUpperCase name}}](#{{name}})
 {{/methods}}
 
+{{#if embeddedResourceInListResource}}
+## Embedded Resource
+{{embeddedResourceInListResource.description}}
+
+{{#if embeddedResourceInListResource}}
+JSON Schema: [{{embeddedResourceInListResource.schema}}]({{embeddedResourceInListResource.schema}})
+
+{{/if}}
+{{#if embeddedResourceInListResource.links}}
+#### Links
+|Relation|Description|Methods|Templated|
+|--------|-----------|-------|---------|
+{{#embeddedResourceInListResource.links}}
+|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}|
+{{/embeddedResourceInListResource.links}}
+
+{{/if}}
+{{#if embeddedResourceInListResource.properties}}
+#### Properties
+{{#grouped-list embeddedResourceInListResource.properties}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
+|Name|Description|Optional|
+|----|-----------|--------|
+{{#this}}
+|{{name}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
+
+{{/if}}
+{{/if}}
 {{#methods}}
 ## {{toUpperCase name}}
 {{description}}
@@ -24,13 +60,34 @@ JSON Schema: [{{request.schema}}]({{request.schema}})
 {{/each}}
 
 {{/if}}
-{{#if request.properties}}
-#### Properties
+{{#if request.query}}
+#### Query Parameters
+{{#grouped-list request.query}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
 |Name|Description|Optional|
 |----|-----------|--------|
-{{#request.properties}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}.|
-{{/request.properties}}
+{{#this}}
+|{{name}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
+
+{{/if}}
+{{#if request.properties}}
+#### Properties
+{{#grouped-list request.properties}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
+|Name|Description|Optional|
+|----|-----------|--------|
+{{#this}}
+|{{name}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
 
 {{/if}}
 {{request.description}}
@@ -56,17 +113,31 @@ JSON Schema: [{{schema}}]({{schema}})
 |Relation|Description|Methods|Templated|
 |--------|-----------|-------|---------|
 {{#links}}
-|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}.|
+|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}|
 {{/links}}
 
 {{/if}}
 {{#if properties}}
 #### Properties
+{{#grouped-list properties}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
 |Name|Description|Optional|
 |----|-----------|--------|
-{{#properties}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}.|
-{{/properties}}
+{{#this}}
+|{{name}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
+
+{{/if}}
+{{#if embedded}}
+#### Embedded
+
+{{#embedded}}
+* [{{name}}]({{href}})
+{{/embedded}}
 
 {{/if}}
 {{#if example}}

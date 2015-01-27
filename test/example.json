@@ -1,0 +1,140 @@
+{
+  "title": "MyTest REST API",
+  "description": "Documentation for the fabulous Example API",
+  "entryPoint": "http://example.com/api",
+  "mediaType": {
+    "identifier": "application/hal+json",
+    "name": "HAL",
+    "link": "https://tools.ietf.org/html/draft-kelly-json-hal-06"
+  },
+  "richardsonMaturityLevel": 3,
+  "restExplanation": "The MyTest API is a *REST API,* or rather *Hypermedia API.* This means that the term *REST* is actually understood as [intended by Roy T. Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) – including the *Hypermedia Constraint.* See [this blog post](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven) for a more in-depth description of REST and the difference to a simple HTTP-based API which is often mistakenly called *REST API.*\n\nIn short, data is partitioned in *resources* which manifest in *representations.* Those are transferred using a *standardized format* ([JSON HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06)) with *standardized methods* (HTTP/1.1, [RFC 7230](http://tools.ietf.org/html/rfc7230)). Application flow between resources is defined by link relations. URLs are subject to change and must not be hard coded. Instead, link relations can be used to explore and use the APIs.",
+  "moreDocContent": "",
+  "relations": [
+    {
+      "title": "myapi:account",
+      "description": "Display a user account",
+      "resource": "account",
+      "method": "get",
+      "templated": [
+        {
+          "key": "id",
+          "description": "ID of an account"
+        }
+      ]
+    }
+  ],
+  "commonRelations": [
+    "collection",
+    "curies",
+    "first",
+    "item",
+    "next",
+    "prev",
+    "self"
+  ],
+  "resources": [
+    {
+      "title": "account",
+      "description": "A single account.",
+      "embeddedResourceInListResource": {
+        "description": "This resource is always output as a list with embedded single resources.\nThe structure of an embedded resource is as follows:",
+        "schema": "http://example.com/account",
+        "links": [
+          {
+            "relation": "self",
+            "description": "A single account",
+            "methods": [
+              "get",
+              "put"
+            ],
+            "templated": false
+          }
+        ],
+        "properties": [
+          {
+            "name": "accountID",
+            "description": "The unique identifier for an account.",
+            "optional": false
+          }
+        ]
+      },
+      "methods": [
+        {
+          "name": "get",
+          "description": "Show account list.",
+          "request": {
+            "schema": "",
+            "headers": {
+              "autorization": "Basic"
+            },
+            "query": [
+              {
+                "name": "id",
+                "description": "filter by id, exact-match",
+                "optional": true,
+                "group": "Filters"
+              },
+              {
+                "name": "page",
+                "description": "pagination page value",
+                "optional": true,
+                "group": "Pagination"
+              }
+            ],
+            "properties": [
+              {
+                "name": "id",
+                "description": "filter by id, exact-match",
+                "optional": true
+              },
+              {
+                "name": "page",
+                "description": "pagination page value",
+                "optional": true
+              }
+            ],
+            "description": "Some additional text to explain the request."
+          },
+          "responses": [
+            {
+              "code": 200,
+              "schema": "",
+              "description": "",
+              "headers": {
+                "www-authenticate": "basic"
+              },
+              "links": [
+                {
+                  "relation": "self",
+                  "description": "A single account",
+                  "methods": [
+                    "get",
+                    "put"
+                  ],
+                  "templated": false
+                }
+              ],
+              "properties": [
+                {
+                  "name": "accountID",
+                  "description": "The unique identifier for an account.",
+                  "optional": false
+                }
+              ],
+              "embedded": [
+                {
+                  "name": "account",
+                  "href": "#embeddedResource"
+                }
+              ],
+              "example": {
+                "accountID": "y2o38h"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

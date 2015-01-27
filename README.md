@@ -88,7 +88,7 @@ The following Handlebars helpers are available:
 * `boolToEnglish` – translates `true` to 'Yes' and `false` to `No`.
 * `httpExplain` – returns the description for a HTTP status code (200: ok, 404: not found, …)
 * `stringify` – JSON.stringify()
-
+* `grouped-list` – groups a collection by the value in `group`. The group name is available in `@key`, the sub-collection in `this`.
 
 ## Tests
 

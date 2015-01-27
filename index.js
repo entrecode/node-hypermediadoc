@@ -3,10 +3,12 @@
 var fs         = require('fs')
   , handlebars = require('handlebars')
   , marked     = require('marked')
-  , tv4        = require('tv4')
+  , validator = require('json-schema-remote')
+  , tv4 = require('tv4')
   , tv4formats = require('tv4-formats')
-  , schemas    = {
-      resourcedoc: require('./schema/resourcedoc.json')
+
+, schemas    = {
+      hypermediadoc: require('./schema/hypermediadoc.json')
     }
   ;
 
@@ -14,6 +16,15 @@ tv4.addFormat(tv4formats);
 for (var schema in schemas) {
   tv4.addSchema(schemas[schema]);
 }
+
+validator.validate(schemas.hypermediadoc, schemas.hypermediadoc.$schema, function(error, valid) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('hypermediadoc is valid')
+  }
+
+});
 
 var handlebarsHelpers = require('./lib/handlebarsHelpers');
 
@@ -43,7 +54,7 @@ var hypermediadoc = module.exports = {
    * @returns Markdown string
    */
   markdownFromResource: function(resource) {
-    var validation = tv4.validateResult(resource, schemas.resourcedoc, false, true);
+    var validation = tv4.validateResult(resource, schemas.hypermediadoc.definitions.resources.items, false, true);
     if (!validation.valid) {
       throw validation.error;
     }

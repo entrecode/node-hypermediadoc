@@ -1,0 +1,301 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "https://raw.githubusercontent.com/entrecode/node-hypermediadoc/master/schema/hypermediadoc.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "entryPoint": {
+      "type": "string",
+      "format": "uri"
+    },
+    "mediaType": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "richardsonMaturityLevel": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "restExplanation": {
+      "type": "string"
+    },
+    "moreDocContent": {
+      "type": "string"
+    },
+    "resources": {
+      "$ref": "#/definitions/resources"
+    },
+    "relations": {
+      "$ref": "#/definitions/relations"
+    },
+    "commonRelations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "title",
+    "resources"
+  ],
+  "definitions": {
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "methods": {
+            "$ref": "#/definitions/methods"
+          },
+          "embeddedResourceInListResource": {
+            "type": "object",
+            "properties": {
+              "schema": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {}
+              },
+              "links": {
+                "$ref": "#/definitions/linkList"
+              },
+              "properties": {
+                "$ref": "#/definitions/propertyList"
+              }
+            }
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "methods"
+        ]
+      }
+    },
+    "methods": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": false,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "request": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "schema": {
+                "type": "string"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {}
+              },
+              "query": {
+                "$ref": "#/definitions/propertyList"
+              },
+              "properties": {
+                "$ref": "#/definitions/propertyList"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "responses": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": false,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "type": "number"
+                },
+                "schema": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "headers": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {}
+                },
+                "links": {
+                  "$ref": "#/definitions/linkList"
+                },
+                "properties": {
+                  "$ref": "#/definitions/propertyList"
+                },
+                "embedded": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "href": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {}
+                }
+              },
+              "required": [
+                "code",
+                "description"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "responses"
+        ]
+      }
+    },
+    "propertyList": {
+      "type": "array",
+      "uniqueItems": false,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean",
+            "default": "false"
+          },
+          "group": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "optional"
+        ]
+      }
+    },
+    "linkList": {
+      "type": "array",
+      "uniqueItems": false,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "relation": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "methods": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": false
+          },
+          "templated": {
+            "type": "boolean",
+            "default": "false"
+          }
+        },
+        "required": [
+          "relation",
+          "description",
+          "methods",
+          "templated"
+        ]
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "templated": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
