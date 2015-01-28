@@ -31,10 +31,10 @@ JSON Schema: [{{embeddedResourceInListResource.schema}}]({{embeddedResourceInLis
 {{#if @key}}
 ##### {{@key}}
 {{/if}}
-|Name|Description|Optional|
-|----|-----------|--------|
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
 {{#this}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}|
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
 {{/this}}
 
 {{/grouped-list}}
@@ -46,18 +46,19 @@ JSON Schema: [{{embeddedResourceInListResource.schema}}]({{embeddedResourceInLis
 {{description}}
 {{#if request}}
 ### Request
-{{/if}}
+{{request.description}}
+
 {{#if request.schema}}
 JSON Schema: [{{request.schema}}]({{request.schema}})
 
 {{/if}}
 {{#if request.headers}}
 #### Headers
-|Header|Value|
-|------|-----|
-{{#each request.headers}}
-|{{@key}}|{{this}}|
-{{/each}}
+|Header|Value|Description|Optional|
+|------|-----|-----------|--------|
+{{#request.headers}}
+|{{header}}|{{value}}|{{description}}|{{boolToEnglish optional}}|
+{{/request.headers}}
 
 {{/if}}
 {{#if request.query}}
@@ -66,10 +67,10 @@ JSON Schema: [{{request.schema}}]({{request.schema}})
 {{#if @key}}
 ##### {{@key}}
 {{/if}}
-|Name|Description|Optional|
-|----|-----------|--------|
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
 {{#this}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}|
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
 {{/this}}
 
 {{/grouped-list}}
@@ -81,17 +82,16 @@ JSON Schema: [{{request.schema}}]({{request.schema}})
 {{#if @key}}
 ##### {{@key}}
 {{/if}}
-|Name|Description|Optional|
-|----|-----------|--------|
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
 {{#this}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}|
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
 {{/this}}
 
 {{/grouped-list}}
 
 {{/if}}
-{{request.description}}
-
+{{/if}}
 {{#responses}}
 ### Response: {{code}} {{httpExplain code}}
 
@@ -123,10 +123,10 @@ JSON Schema: [{{schema}}]({{schema}})
 {{#if @key}}
 ##### {{@key}}
 {{/if}}
-|Name|Description|Optional|
-|----|-----------|--------|
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
 {{#this}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}|
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
 {{/this}}
 
 {{/grouped-list}}

@@ -124,9 +124,24 @@
                 "type": "string"
               },
               "headers": {
-                "type": "object",
-                "additionalProperties": true,
-                "properties": {}
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "header": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "optional": {
+                      "type": "boolean"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
               },
               "query": {
                 "$ref": "#/definitions/propertyList"

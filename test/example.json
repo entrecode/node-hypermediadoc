@@ -68,9 +68,12 @@
           "description": "Show account list.",
           "request": {
             "schema": "",
-            "headers": {
-              "autorization": "Basic"
-            },
+            "headers": [{
+              "header": "Authorization",
+              "value": "Basic",
+              "description": "",
+              "optional": false
+            }],
             "query": [
               {
                 "name": "id",
