@@ -28,6 +28,12 @@ var templates = {
   },
   root: {
     markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/root.md.handlebars', {encoding: 'utf8'}))
+  },
+  listRelations: {
+    markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/listRelations.md.handlebars', {encoding: 'utf8'}))
+  },
+  listResources: {
+    markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/listResources.md.handlebars', {encoding: 'utf8'}))
   }
 }
 
@@ -54,6 +60,10 @@ var hypermediadoc = module.exports = {
     return templates.root.markdown(apiDoc);
   },
 
+  htmlForRootPage: function(apiDoc) {
+    return marked(this.markdownForRootPage(apiDoc));
+  },
+
   /**
    * render Markdown from a resource definition using the resource template
    * @param resource JSON that complies to the resourcedoc JSON Schema
@@ -68,11 +78,7 @@ var hypermediadoc = module.exports = {
   },
 
   htmlFromResource: function(resource) {
-    var data = {
-      document: marked(this.markdownFromResource(resource)),
-      title: resource.title + ' Documentation'
-    };
-    return templates.resource.html(data);
+    return marked(this.markdownFromResource(resource));
   },
 
   markdownFromRelation: function(relation) {
@@ -81,6 +87,34 @@ var hypermediadoc = module.exports = {
       throw validation.error;
     }
     return templates.relation.markdown(relation);
+  },
+
+  htmlFromRelation: function(relation) {
+    return marked(this.markdownFromRelation(relation));
+  },
+
+  markdownListRelations: function(apiDoc) {
+    var validation = tv4.validateResult(apiDoc, schemas.hypermediadoc, false, true);
+    if (!validation.valid) {
+      throw validation.error;
+    }
+    return templates.listRelations.markdown(apiDoc);
+  },
+
+  markdownListResources: function(apiDoc) {
+    var validation = tv4.validateResult(apiDoc, schemas.hypermediadoc, false, true);
+    if (!validation.valid) {
+      throw validation.error;
+    }
+    return templates.listResources.markdown(apiDoc);
+  },
+  
+  htmlListRelations: function(apiDoc) {
+    return marked(this.markdownListRelations(apiDoc));
+  },
+
+  htmlListResources: function(apiDoc) {
+    return marked(this.markdownListResources(apiDoc));
   }
 
 };
