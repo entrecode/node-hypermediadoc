@@ -4,43 +4,55 @@
   "type": "object",
   "properties": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "description": "The name of your API. Don't include the word “API” at the end."
     },
     "description": {
-      "type": "string"
+      "type": "string",
+      "description": "Describe the purpose of your API."
     },
     "entryPoint": {
       "type": "string",
-      "format": "uri"
+      "format": "uri",
+      "description": "The main entry point of your API. Should be the only URL necessary to know for usage of your REST API."
     },
     "mediaType": {
       "type": "object",
+      "description": "The main media type you use in your REST API. Should be a standard, like HAL.",
       "properties": {
         "identifier": {
-          "type": "string"
+          "type": "string",
+          "description": "The RFC 6838 compliant media type identifier (like `application/hal+json`)."
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The common name of the media type."
         },
         "link": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "description": "URL to the documentation of this media type."
         }
       }
     },
     "richardsonMaturityLevel": {
       "type": "integer",
       "minimum": 0,
-      "maximum": 3
+      "maximum": 3,
+      "description": "The level of REST-compliance according to the Richardson Maturity Model, see http://martinfowler.com/articles/richardsonMaturityModel.html for details."
     },
     "restExplanation": {
-      "type": "string"
+      "type": "string",
+      "default": "This API is a *REST API,* or rather *Hypermedia API.* This means that the term *REST* is actually understood as [intended by Roy T. Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) – including the *Hypermedia Constraint.* See [this blog post](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven) for a more in-depth description of REST and the difference to a simple HTTP-based API which is often mistakenly called *REST API.*\n\nIn short, data is partitioned in *resources* which manifest in *representations.* Those are transferred using a *standardized format* ([JSON HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06)) with *standardized methods* (HTTP/1.1, [RFC 7230](http://tools.ietf.org/html/rfc7230)). Application flow between resources is defined by link relations. URLs are subject to change and must not be hard coded. Instead, link relations can be used to explore and use the APIs.",
+      "description": "In this field you can explain how your API is meant to be used."
     },
     "moreDocContent": {
-      "type": "string"
+      "type": "string",
+      "description": "If you have even more to tell your users than in `restExplanation`, you can use this field."
     },
     "docURLs": {
       "type": "object",
+      "description": "These absolute URLs are used for making links. Ideally, `root` is something like `https://yourdomain.com/doc/`, `resources` would then be `https://yourdomain.com/doc/resources/` and `relations` would be `https://yourdomain.com/doc/relations/`.",
       "properties": {
         "root": {
           "type": "string",
@@ -57,12 +69,15 @@
       }
     },
     "resources": {
+      "description": "Resources your API has.",
       "$ref": "#/definitions/resources"
     },
     "relations": {
+      "description": "Relations your API provides.",
       "$ref": "#/definitions/relations"
     },
     "commonRelations": {
+      "description": "List of common relations (those registered with IANA, http://www.iana.org/assignments/link-relations/link-relations.xhtml ) your API uses.",
       "type": "array",
       "items": {
         "type": "string"
@@ -81,27 +96,29 @@
         "additionalProperties": false,
         "properties": {
           "title": {
+            "description": "Main identifier of the resource. Should be lowercase and singular.",
             "type": "string"
           },
           "description": {
+            "description": "Describe the purpose of this resource.",
             "type": "string"
           },
           "methods": {
+            "description": "Methods that are allowed on this resource.",
             "$ref": "#/definitions/methods"
           },
           "embeddedResourceInListResource": {
+            "description": "If you only use list resources (e.g. a single resource is represented as a list with one item), you can describe the format of the embedded single resource here.",
             "type": "object",
             "properties": {
               "schema": {
-                "type": "string"
+                "type": "string",
+                "description": "JSON Schema identifier for the (sub-)resource"
               },
               "description": {
+                "description": "You can optionally override the standard description text here.",
+                "default": "This resource is always output as a list with embedded single resources.\nThe structure of an embedded single resource is as follows:",
                 "type": "string"
-              },
-              "headers": {
-                "type": "object",
-                "additionalProperties": true,
-                "properties": {}
               },
               "links": {
                 "$ref": "#/definitions/linkList"
@@ -126,9 +143,11 @@
         "additionalProperties": true,
         "properties": {
           "name": {
+            "description": "get, put, post or delete",
             "type": "string"
           },
           "description": {
+            "description": "You can describe what this method does in more detail here.",
             "type": "string"
           },
           "request": {
@@ -136,10 +155,12 @@
             "additionalProperties": true,
             "properties": {
               "schema": {
+                "description": "JSON Schema of the expected request body.",
                 "type": "string"
               },
               "headers": {
                 "type": "array",
+                "description": "HTTP Headers expected in the request.",
                 "items": {
                   "type": "object",
                   "properties": {
@@ -178,6 +199,7 @@
               "additionalProperties": false,
               "properties": {
                 "code": {
+                  "description": "HTTP status code of this response (e.g. 200, 201, 400, …)",
                   "type": "number"
                 },
                 "schema": {
@@ -199,6 +221,7 @@
                 },
                 "embedded": {
                   "type": "array",
+                  "description": "Link to the embedded resource(s).",
                   "items": {
                     "type": "object",
                     "properties": {
@@ -249,6 +272,7 @@
             "default": "false"
           },
           "group": {
+            "description": "Using this property, you can enable grouping of properties in separate tables. The group name will be used as title of the group.",
             "type": "string"
           },
           "type": {
@@ -276,10 +300,12 @@
             "type": "string"
           },
           "methods": {
+            "description": "List of allowed methods on this relation",
             "type": "array",
             "uniqueItems": false
           },
           "templated": {
+            "description": "Indicate if the Link is templated according to RFC 6570.",
             "type": "boolean",
             "default": "false"
           }
