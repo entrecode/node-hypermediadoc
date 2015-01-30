@@ -1,40 +1,97 @@
 # Resource: {{title}}
 {{description}}
 
+{{#if embeddedResourceInListResource}}
+* [Embedded Resource](#embedded-resource)
+{{/if}}
 {{#methods}}
 * [{{toUpperCase name}}](#{{name}})
 {{/methods}}
 
+{{#if embeddedResourceInListResource}}
+## Embedded Resource
+{{embeddedResourceInListResource.description}}
+
+{{#if embeddedResourceInListResource}}
+JSON Schema: [{{embeddedResourceInListResource.schema}}]({{embeddedResourceInListResource.schema}})
+
+{{/if}}
+{{#if embeddedResourceInListResource.links}}
+#### Links
+|Relation|Description|Methods|Templated|
+|--------|-----------|-------|---------|
+{{#embeddedResourceInListResource.links}}
+|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}|
+{{/embeddedResourceInListResource.links}}
+
+{{/if}}
+{{#if embeddedResourceInListResource.properties}}
+#### Properties
+{{#grouped-list embeddedResourceInListResource.properties}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
+{{#this}}
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
+
+{{/if}}
+{{/if}}
 {{#methods}}
 ## {{toUpperCase name}}
 {{description}}
 {{#if request}}
 ### Request
-{{/if}}
+{{request.description}}
+
 {{#if request.schema}}
 JSON Schema: [{{request.schema}}]({{request.schema}})
 
 {{/if}}
 {{#if request.headers}}
 #### Headers
-|Header|Value|
-|------|-----|
-{{#each request.headers}}
-|{{@key}}|{{this}}|
-{{/each}}
+|Header|Value|Description|Optional|
+|------|-----|-----------|--------|
+{{#request.headers}}
+|{{header}}|{{value}}|{{description}}|{{boolToEnglish optional}}|
+{{/request.headers}}
+
+{{/if}}
+{{#if request.query}}
+#### Query Parameters
+{{#grouped-list request.query}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
+{{#this}}
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
 
 {{/if}}
 {{#if request.properties}}
 #### Properties
-|Name|Description|Optional|
-|----|-----------|--------|
-{{#request.properties}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}.|
-{{/request.properties}}
+{{#grouped-list request.properties}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
+{{#this}}
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
 
 {{/if}}
-{{request.description}}
-
+{{/if}}
 {{#responses}}
 ### Response: {{code}} {{httpExplain code}}
 
@@ -56,17 +113,31 @@ JSON Schema: [{{schema}}]({{schema}})
 |Relation|Description|Methods|Templated|
 |--------|-----------|-------|---------|
 {{#links}}
-|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}.|
+|{{relation}}|{{description}}|{{#each methods}}{{toUpperCase this}}{{#unless @last}}, {{/unless}}{{/each}}|{{boolToEnglish templated}}|
 {{/links}}
 
 {{/if}}
 {{#if properties}}
 #### Properties
-|Name|Description|Optional|
-|----|-----------|--------|
-{{#properties}}
-|{{name}}|{{description}}|{{boolToEnglish optional}}.|
-{{/properties}}
+{{#grouped-list properties}}
+{{#if @key}}
+##### {{@key}}
+{{/if}}
+|Name|Type|Description|Optional|
+|----|----|-----------|--------|
+{{#this}}
+|{{name}}|{{type}}|{{description}}|{{boolToEnglish optional}}|
+{{/this}}
+
+{{/grouped-list}}
+
+{{/if}}
+{{#if embedded}}
+#### Embedded
+
+{{#embedded}}
+* [{{name}}]({{href}})
+{{/embedded}}
 
 {{/if}}
 {{#if example}}

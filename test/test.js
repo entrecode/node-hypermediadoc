@@ -3,69 +3,27 @@
 var assert = require('assert');
 var hypermediadoc = require('../');
 
-var testResource = {
-  "title": "account",
-  "description": "A single account.",
-  "methods": [
-    {
-      "name": "get",
-      "description": "Show a single account.",
-      "request": {
-        "schema": "",
-        "headers": {
-          "autorization": "Basic"
-        },
-        "properties": [
-          {
-            "name": "userid",
-            "description": "User ID of the account",
-            "optional": true
-          }
-        ],
-        "description": "Some additional text to explain the request."
-      },
-      "responses": [
-        {
-          "code": 200,
-          "schema": "",
-          "description": "",
-          "headers": {
-            "www-authenticate": "basic"
-          },
-          "links": [
-            {
-              "relation": "self",
-              "description": "A single account",
-              "methods": [
-                "get",
-                "put"
-              ],
-              "templated": false
-            }
-          ],
-          "properties": [
-            {
-              "name": "accountID",
-              "description": "The unique identifier for an account.",
-              "optional": false
-            }
-          ],
-          "example": {"accountID": "y2o38h"}
-        }
-      ]
-    }
-  ]
-};
+var testDoc = require('./example.json');
 
 describe('hypermediadoc node module', function() {
+  it('correct markdown for root page', function() {
+    var result = hypermediadoc.markdownForRootPage(testDoc);
+    assert.equal(result, "# MyTest REST API\nDocumentation for the fabulous Example API\n\n* **Entry Point:** [http://example.com/api](http://example.com/api)\n* **Media Type:** `application/hal+json` ([HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06))\n* **[Richardson Maturity Level](http://martinfowler.com/articles/richardsonMaturityModel.html):** 3 (Hypermedia as the engine of Application State)\n\nThe MyTest API is a *REST API,* or rather *Hypermedia API.* This means that the term *REST* is actually understood as [intended by Roy T. Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) – including the *Hypermedia Constraint.* See [this blog post](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven) for a more in-depth description of REST and the difference to a simple HTTP-based API which is often mistakenly called *REST API.*\n\nIn short, data is partitioned in *resources* which manifest in *representations.* Those are transferred using a *standardized format* ([JSON HAL](https://tools.ietf.org/html/draft-kelly-json-hal-06)) with *standardized methods* (HTTP/1.1, [RFC 7230](http://tools.ietf.org/html/rfc7230)). Application flow between resources is defined by link relations. URLs are subject to change and must not be hard coded. Instead, link relations can be used to explore and use the APIs.\n\n\n");
+  });
   it('correct markdown from resource', function() {
-    var result = hypermediadoc.markdownFromResource(testResource);
-    assert.equal(result, "# Resource: account\nA single account.\n\n* [GET](#get)\n\n## GET\nShow a single account.\n### Request\n#### Headers\n|Header|Value|\n|------|-----|\n|autorization|Basic|\n\n#### Properties\n|Name|Description|Optional|\n|----|-----------|--------|\n|userid|User ID of the account|Yes.|\n\nSome additional text to explain the request.\n\n### Response: 200 OK\n\n#### Headers\n|Header|Value|\n|------|-----|\n|www-authenticate|basic|\n\n#### Links\n|Relation|Description|Methods|Templated|\n|--------|-----------|-------|---------|\n|self|A single account|GET, PUT|No.|\n\n#### Properties\n|Name|Description|Optional|\n|----|-----------|--------|\n|accountID|The unique identifier for an account.|No.|\n\n#### Example\n```\n{\"accountID\":\"y2o38h\"}\n```\n");
+    var result = hypermediadoc.markdownFromResource(testDoc.resources[0]);
+    assert.equal(result, "# Resource: account\nA single account.\n\n* [Embedded Resource](#embedded-resource)\n* [GET](#get)\n\n## Embedded Resource\nThis resource is always output as a list with embedded single resources.\nThe structure of an embedded resource is as follows:\n\nJSON Schema: [http://example.com/account](http://example.com/account)\n\n#### Links\n|Relation|Description|Methods|Templated|\n|--------|-----------|-------|---------|\n|self|A single account|GET, PUT|No|\n\n#### Properties\n|Name|Type|Description|Optional|\n|----|----|-----------|--------|\n|accountID||The unique identifier for an account.|No|\n\n\n## GET\nShow account list.\n### Request\nSome additional text to explain the request.\n\n#### Headers\n|Header|Value|Description|Optional|\n|------|-----|-----------|--------|\n|Authorization|Basic||No|\n\n#### Query Parameters\n##### Filters\n|Name|Type|Description|Optional|\n|----|----|-----------|--------|\n|id||filter by id, exact-match|Yes|\n\n##### Pagination\n|Name|Type|Description|Optional|\n|----|----|-----------|--------|\n|page||pagination page value|Yes|\n\n\n#### Properties\n|Name|Type|Description|Optional|\n|----|----|-----------|--------|\n|id||filter by id, exact-match|Yes|\n|page||pagination page value|Yes|\n\n\n### Response: 200 OK\n\n#### Headers\n|Header|Value|\n|------|-----|\n|www-authenticate|basic|\n\n#### Links\n|Relation|Description|Methods|Templated|\n|--------|-----------|-------|---------|\n|self|A single account|GET, PUT|No|\n\n#### Properties\n|Name|Type|Description|Optional|\n|----|----|-----------|--------|\n|accountID||The unique identifier for an account.|No|\n\n\n#### Embedded\n\n* [account](#embeddedResource)\n\n#### Example\n```\n{\"accountID\":\"y2o38h\"}\n```\n");
   });
-
-  it('correct html from resource', function() {
-    var result = hypermediadoc.htmlFromResource(testResource);
-    assert.equal(result, "<!DOCTYPE html>\n<html>\n<head>\n    <link href=\"https://maxcdn.bootstrapcdn.com/bootswatch/3.3.1/cosmo/bootstrap.min.css\" rel=\"stylesheet\">\n    <script src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>\n    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js\"></script>\n    <title>account Documentation</title>\n</head>\n<body>\n<div class=\"container\">\n    <h1 id=\"resource-account\">Resource: account</h1>\n<p>A single account.</p>\n<ul>\n<li><a href=\"#get\">GET</a></li>\n</ul>\n<h2 id=\"get\">GET</h2>\n<p>Show a single account.</p>\n<h3 id=\"request\">Request</h3>\n<h4 id=\"headers\">Headers</h4>\n<table>\n<thead>\n<tr>\n<th>Header</th>\n<th>Value</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>autorization</td>\n<td>Basic</td>\n</tr>\n</tbody>\n</table>\n<h4 id=\"properties\">Properties</h4>\n<table>\n<thead>\n<tr>\n<th>Name</th>\n<th>Description</th>\n<th>Optional</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>userid</td>\n<td>User ID of the account</td>\n<td>Yes.</td>\n</tr>\n</tbody>\n</table>\n<p>Some additional text to explain the request.</p>\n<h3 id=\"response-200-ok\">Response: 200 OK</h3>\n<h4 id=\"headers\">Headers</h4>\n<table>\n<thead>\n<tr>\n<th>Header</th>\n<th>Value</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>www-authenticate</td>\n<td>basic</td>\n</tr>\n</tbody>\n</table>\n<h4 id=\"links\">Links</h4>\n<table>\n<thead>\n<tr>\n<th>Relation</th>\n<th>Description</th>\n<th>Methods</th>\n<th>Templated</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>self</td>\n<td>A single account</td>\n<td>GET, PUT</td>\n<td>No.</td>\n</tr>\n</tbody>\n</table>\n<h4 id=\"properties\">Properties</h4>\n<table>\n<thead>\n<tr>\n<th>Name</th>\n<th>Description</th>\n<th>Optional</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>accountID</td>\n<td>The unique identifier for an account.</td>\n<td>No.</td>\n</tr>\n</tbody>\n</table>\n<h4 id=\"example\">Example</h4>\n<pre><code>{&quot;accountID&quot;:&quot;y2o38h&quot;}\n</code></pre>\n</div>\n</body>\n<script type=\"text/javascript\">\n    $( \"table\" ).addClass( \"table table-striped\" );\n</script>\n</html>");
+  it('correct markdown from relation', function() {
+    var result = hypermediadoc.markdownFromRelation(testDoc.relations[0]);
+    assert.equal(result, "# Relation: myapi:account\nDisplay a user account\n\n**Resource:** [example:account](../account)\n\n### Templating\n\n|Parameter|Description|\n|---------|-----------|\n|id|ID of an account|\n\n");
   });
-
+  it('correct markdown from relation list', function() {
+    var result = hypermediadoc.markdownListRelations(testDoc);
+    assert.equal(result, "## Relations\n\n* [myapi:account](myapi:account)\n* [Common Relations:](http://www.iana.org/assignments/link-relations/link-relations.xhtml)\n    * collection\n    * curies\n    * first\n    * item\n    * next\n    * prev\n    * self\n\n");
+  });
+  it('correct markdown from resource list', function() {
+    var result = hypermediadoc.markdownListResources(testDoc);
+    assert.equal(result, "## Resources\n\n* [account](account)\n");
+  });
 });

@@ -3,10 +3,11 @@
 var fs         = require('fs')
   , handlebars = require('handlebars')
   , marked     = require('marked')
-  , tv4        = require('tv4')
+  , tv4 = require('tv4')
   , tv4formats = require('tv4-formats')
-  , schemas    = {
-      resourcedoc: require('./schema/resourcedoc.json')
+
+, schemas    = {
+      hypermediadoc: require('./schema/hypermediadoc.json')
     }
   ;
 
@@ -18,8 +19,21 @@ for (var schema in schemas) {
 var handlebarsHelpers = require('./lib/handlebarsHelpers');
 
 var templates = {
-  markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/resource.md.handlebars', {encoding: 'utf8'})),
-  html: handlebars.compile(fs.readFileSync(__dirname + '/templates/resource.html.handlebars', {encoding: 'utf8'}))
+  resource: {
+    markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/resource.md.handlebars', {encoding: 'utf8'}))
+  },
+  relation: {
+    markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/relation.md.handlebars', {encoding: 'utf8'}))
+  },
+  root: {
+    markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/root.md.handlebars', {encoding: 'utf8'}))
+  },
+  relationList: {
+    markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/listRelations.md.handlebars', {encoding: 'utf8'}))
+  },
+  resourceList: {
+    markdown: handlebars.compile(fs.readFileSync(__dirname + '/templates/listResources.md.handlebars', {encoding: 'utf8'}))
+  }
 }
 
 handlebars = handlebarsHelpers(handlebars);
@@ -38,23 +52,129 @@ marked.setOptions({
 var hypermediadoc = module.exports = {
 
   /**
-   * render Markdown from a resource definition using the resource template
-   * @param resource JSON that complies to the resourcedoc JSON Schema
-   * @returns Markdown string
+   * generate documentation
+   * @param {string} type   type of the doc page to generate ('root', 'resource', 'relation', 'resourceList' or 'relationList')
+   * @param {object} source A full JSON according to the hypermediadoc JSON schema for root and lists, or a sub-part of that JSON for a single relation or resource
+   * @param {string} format Either 'html' or 'markdown'
+   * @returns {string}      Generated documentation in html or markdown.
    */
-  markdownFromResource: function(resource) {
-    var validation = tv4.validateResult(resource, schemas.resourcedoc, false, true);
+  getDoc: function(type, source, format) {
+    if (['root', 'resource', 'relation', 'resourceList', 'relationList'].indexOf(type) === -1) {
+      throw new Error('unknown type: ' + type);
+    }
+    if (['html', 'markdown'].indexOf(format) === -1) {
+      throw new Error('unsupported format: '+format);
+    }
+    var schema;
+    switch (type) {
+      case 'resource':
+        schema = schemas.hypermediadoc.definitions.resources.items;
+        break;
+      case 'relation':
+        schema = schemas.hypermediadoc.definitions.relations.items;
+        break;
+      default:
+        schema = schemas.hypermediadoc;
+    }
+    var validation = tv4.validateResult(source, schema, false, true);
     if (!validation.valid) {
       throw validation.error;
     }
-    return templates.markdown(resource);
+    var markdown = templates[type].markdown(source);
+    if (format === 'html') {
+      return marked(markdown);
+    }
+    return markdown;
   },
 
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param apiDoc
+   * @returns {string}
+   */
+  markdownForRootPage: function(apiDoc) {
+    return this.getDoc('root', apiDoc, 'markdown');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param apiDoc
+   * @returns {string}
+   */
+  htmlForRootPage: function(apiDoc) {
+    return this.getDoc('root', apiDoc, 'html');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param resource
+   * @returns {string}
+   */
+  markdownFromResource: function(resource) {
+    return this.getDoc('resource', resource, 'markdown');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param resource
+   * @returns {string}
+   */
   htmlFromResource: function(resource) {
-    var data = {
-      document: marked(this.markdownFromResource(resource)),
-      title: resource.title + ' Documentation'
-    };
-    return templates.html(data);
+    return this.getDoc('resource', resource, 'html');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param relation
+   * @returns {string}
+   */
+  markdownFromRelation: function(relation) {
+    return this.getDoc('relation', relation, 'markdown');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param relation
+   * @returns {string}
+   */
+  htmlFromRelation: function(relation) {
+    return this.getDoc('relation', relation, 'html');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param apiDoc
+   * @returns {string}
+   */
+  markdownListRelations: function(apiDoc) {
+    return this.getDoc('relationList', apiDoc, 'markdown');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param apiDoc
+   * @returns {string}
+   */
+  markdownListResources: function(apiDoc) {
+    return this.getDoc('resourceList', apiDoc, 'markdown');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param apiDoc
+   * @returns {string}
+   */
+  htmlListRelations: function(apiDoc) {
+    return this.getDoc('relationList', apiDoc, 'html');
+  },
+
+  /**
+   * legacy method. Use getDoc(type, source, format) instead.
+   * @param apiDoc
+   * @returns {string}
+   */
+  htmlListResources: function(apiDoc) {
+    return this.getDoc('resourceList', apiDoc, 'html');
   }
+
 };
