@@ -1,6 +1,6 @@
 {
   "name": "hypermediadoc",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Node.js module to generate markdown documentation for Hypermedia APIs.",
   "homepage": "https://github.com/entrecode/node-hypermediadoc",
   "author": {
