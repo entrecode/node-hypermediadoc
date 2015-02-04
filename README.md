@@ -224,6 +224,9 @@ mocha
 
 ## Changelog
 
+### 1.0.1
+* switched from [marked](https://github.com/chjj/marked) to [markdown-it](https://github.com/markdown-it/markdown-it) due to [security problem](https://nodesecurity.io/advisories/marked_redos)
+
 ### 1.0.0
 * large overhaul (incompatible API changes…!)
 * new JSON Schema
