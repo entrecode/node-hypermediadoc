@@ -2,11 +2,11 @@
 
 var fs         = require('fs')
   , handlebars = require('handlebars')
-  , marked     = require('marked')
-  , tv4 = require('tv4')
+  , markdownIt = require('markdown-it')
+  , tv4        = require('tv4')
   , tv4formats = require('tv4-formats')
 
-, schemas    = {
+  , schemas    = {
       hypermediadoc: require('./schema/hypermediadoc.json')
     }
   ;
@@ -38,23 +38,21 @@ var templates = {
 
 handlebars = handlebarsHelpers(handlebars);
 
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
+var md = new markdownIt({
   breaks: true,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: true
+  linkify: true,
+  typographer: true,
+  quotes: '“”‘’'
 });
 
 var hypermediadoc = module.exports = {
 
   /**
    * generate documentation
-   * @param {string} type   type of the doc page to generate ('root', 'resource', 'relation', 'resourceList' or 'relationList')
-   * @param {object} source A full JSON according to the hypermediadoc JSON schema for root and lists, or a sub-part of that JSON for a single relation or resource
+   * @param {string} type   type of the doc page to generate ('root', 'resource', 'relation', 'resourceList' or
+   *   'relationList')
+   * @param {object} source A full JSON according to the hypermediadoc JSON schema for root and lists, or a sub-part of
+   *   that JSON for a single relation or resource
    * @param {string} format Either 'html' or 'markdown'
    * @returns {string}      Generated documentation in html or markdown.
    */
@@ -63,7 +61,7 @@ var hypermediadoc = module.exports = {
       throw new Error('unknown type: ' + type);
     }
     if (['html', 'markdown'].indexOf(format) === -1) {
-      throw new Error('unsupported format: '+format);
+      throw new Error('unsupported format: ' + format);
     }
     var schema;
     switch (type) {
@@ -82,7 +80,7 @@ var hypermediadoc = module.exports = {
     }
     var markdown = templates[type].markdown(source);
     if (format === 'html') {
-      return marked(markdown);
+      return md.render(markdown);
     }
     return markdown;
   },
