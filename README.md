@@ -224,6 +224,9 @@ mocha
 
 ## Changelog
 
+### 1.0.2
+* updated dependencies
+
 ### 1.0.1
 * switched from [marked](https://github.com/chjj/marked) to [markdown-it](https://github.com/markdown-it/markdown-it) due to [security problem](https://nodesecurity.io/advisories/marked_redos)
 
