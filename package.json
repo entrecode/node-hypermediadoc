@@ -1,6 +1,6 @@
 {
   "name": "hypermediadoc",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Node.js module to generate markdown documentation for Hypermedia APIs.",
   "homepage": "https://github.com/entrecode/node-hypermediadoc",
   "author": {
@@ -22,15 +22,15 @@
   ],
   "dependencies": {
     "handlebars": "^4.0.5",
-    "lodash": "^3.3.1",
-    "markdown-it": "^5.0.2",
+    "lodash": "^4.3.0",
+    "markdown-it": "^6.0.0",
     "tv4": "^1.2.7",
     "tv4-formats": "^1.0.2"
   },
   "devDependencies": {
-    "chai": "^3.4.1",
-    "json-schema-remote": "^0.1.5",
-    "mocha": "^2.3.4",
+    "chai": "^3.5.0",
+    "json-schema-remote": "^0.1.6",
+    "mocha": "^2.4.5",
     "mocha-bamboo-reporter": "^1.1.0"
   }
 }
