@@ -2,7 +2,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var validator = require('json-schema-remote');
-
+validator.setLoggingFunction(()=>{});
 var schema = require('../schema/hypermediadoc.json');
 
 describe('hypermediadoc JSON Schema', function() {
