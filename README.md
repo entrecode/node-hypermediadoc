@@ -224,6 +224,12 @@ mocha
 
 ## Changelog
 
+### 1.0.10
+* updated dependencies
+
+### 1.0.9
+* updated dependencies
+
 ### 1.0.8
 * updated dependencies
 
